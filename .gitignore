@@ -1,0 +1,9 @@
+/vendor/
+.phpunit.result.cache
+/phpunit.xml
+/.phpcs-cache
+/phpcs.xml
+.php-cs-fixer.cache
+
+# Not recommended to commit .lock for libs
+composer.lock

@@ -1,0 +1,58 @@
+{
+  "name": "dilitrust/composer-google-artifact-registry",
+  "version": "0.1.0",
+  "type": "composer-plugin",
+  "authors": [
+    {
+      "name": "DiliTrust"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "DiliTrust\\Composer\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "DiliTrust\\Composer\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=8.2",
+    "composer-plugin-api": "^2.0"
+  },
+  "require-dev": {
+    "composer/composer": "^2.0",
+    "phpstan/extension-installer": "*",
+    "phpstan/phpstan": "^2.0",
+    "friendsofphp/php-cs-fixer": "^3.57",
+    "phpstan/phpstan-phpunit": "*",
+    "phpunit/phpunit": "^11.0"
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
+  },
+  "extra": {
+    "class": "DiliTrust\\Composer\\GoogleArtifactRegistryPlugin",
+    "plugin-modifies-downloads": true
+  },
+  "scripts": {
+    "test": [
+      "@sniff",
+      "@stan",
+      "@unit"
+    ],
+    "sniff": [
+      "php-cs-fixer fix"
+    ],
+    "stan": [
+      "phpstan analyse --memory-limit 1G"
+    ],
+    "unit": [
+      "phpunit"
+    ]
+  }
+}
