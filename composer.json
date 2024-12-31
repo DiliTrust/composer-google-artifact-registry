@@ -23,9 +23,9 @@
   },
   "require-dev": {
     "composer/composer": "^2.0",
+    "friendsofphp/php-cs-fixer": "^3.57",
     "phpstan/extension-installer": "*",
     "phpstan/phpstan": "^2.0",
-    "friendsofphp/php-cs-fixer": "^3.57",
     "phpstan/phpstan-phpunit": "*",
     "phpunit/phpunit": "^11.0"
   },
@@ -36,8 +36,7 @@
     }
   },
   "extra": {
-    "class": "DiliTrust\\Composer\\GoogleArtifactRegistryPlugin",
-    "plugin-modifies-downloads": true
+    "class": "DiliTrust\\Composer\\GoogleArtifactRegistryPlugin"
   },
   "scripts": {
     "test": [

@@ -5,20 +5,19 @@ declare(strict_types=1);
 namespace DiliTrust\Composer;
 
 use Composer\Composer;
-use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\IO\IOInterface;
-use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
-use Composer\Plugin\PreFileDownloadEvent;
-use Composer\Plugin\PrePoolCreateEvent;
 
-final class GoogleArtifactRegistryPlugin implements PluginInterface, EventSubscriberInterface
+final class GoogleArtifactRegistryPlugin implements PluginInterface
 {
-    private IOInterface $io;
-
     public function activate(Composer $composer, IOInterface $io): void
     {
-        $this->io = $io;
+        $configuration = $composer->getConfig()->get('google-artifact-registry') ?? [];
+        $repositories = $configuration['repositories'] ?? [];
+        foreach ($repositories as $repository) {
+            $composer->getRepositoryManager()
+                ->addRepository(new GoogleArtifactRegistryRepository($repository, $io));
+        }
     }
 
     public function deactivate(Composer $composer, IOInterface $io): void
@@ -27,25 +26,5 @@ final class GoogleArtifactRegistryPlugin implements PluginInterface, EventSubscr
 
     public function uninstall(Composer $composer, IOInterface $io): void
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            PluginEvents::PRE_FILE_DOWNLOAD => 'onPreFileDownload',
-            PluginEvents::PRE_POOL_CREATE => 'onPrePoolCreate',
-        ];
-    }
-
-    public function onPreFileDownload(PreFileDownloadEvent $event): void
-    {
-        $this->io->write($event->getProcessedUrl());
-    }
-
-    public function onPrePoolCreate(PrePoolCreateEvent $event): void
-    {
-        foreach ($event->getUnacceptableFixedPackages() as $package) {
-            $this->io->write($package->getPrettyString());
-        }
     }
 }
